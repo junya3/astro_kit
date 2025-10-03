@@ -1,0 +1,19 @@
+@use 'sass:string';
+@use 'variable' as *;
+
+// ----------------------------
+// font-size calc
+// ----------------------------
+@function rem($size) {
+  @return calc(#{$size} / var(--font-rem) * 1rem);
+}
+
+// ----------------------------
+// color calc
+// ----------------------------
+@function color-hsl($color, $percent) {
+  @return hsl(from var(--color-#{$color}) h s calc(l + #{$percent}));
+}
+@function mix($color01, $percent, $color02: #0000) {
+  @return string.unquote('color-mix(in srgb, #{$color01} #{$percent}%, #{$color02})');
+}

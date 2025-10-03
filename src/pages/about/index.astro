@@ -1,0 +1,11 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import sampleImage from '~/assets/image/sample.jpg';
+---
+
+<Layout pageTitle='about'>
+  <h2>Aboutページです</h2>
+  <img src={sampleImage.src} alt='' width='300' />
+  <a href='/'>TOPページへ</a>
+  <a href='/maintenance'>メンテナンス画面</a>
+</Layout>

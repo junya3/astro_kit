@@ -1,0 +1,13 @@
+---
+export interface IconProps {
+  name: string;
+  type?: 'solid' | 'regular';
+  class?: string;
+}
+
+const { name, type = 'solid', class: extraClass = '' } = Astro.props;
+---
+
+<div class=`icon ${extraClass}`>
+  <i class=`fa-${type} fa-${name}`></i>
+</div>

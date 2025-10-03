@@ -1,0 +1,109 @@
+---
+// ----------------------------
+// components
+// ----------------------------
+import Header from '~/layouts/Header.astro';
+import Footer from '~/layouts/Footer.astro';
+
+// ----------------------------
+// style, fonts
+// ----------------------------
+import '~/assets/scss/main.scss';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
+// ----------------------------
+// Interface
+// ----------------------------
+interface LayoutProps {
+  pageTitle: string; // 固有ページのタイトル
+  page?: string; // 固有ページの
+  ogUrl?: string;
+  ogImage?: string;
+  lang?: string;
+  description?: string;
+  maintenance?: boolean;
+}
+
+// ----------------------------
+// props
+// ----------------------------
+const {
+  pageTitle,
+  page = '',
+  ogUrl = '',
+  ogImage = '',
+  lang = 'ja',
+  description = 'Astro, SCSS, TypeScriptを使って開発ができるフロントエンドキットです。',
+  maintenance,
+} = Astro.props as LayoutProps;
+
+// ----------------------------
+// default variable
+// ----------------------------
+
+const sitename: string = 'Frontend-kit';
+const title: string = pageTitle ? `${pageTitle} | ${sitename}` : sitename;
+const keywords: string =
+  'Astro, scss, ts, TypeScript, jade, sass, frontend, markup, kit, develop';
+const og = {
+  url: ogUrl,
+  title,
+  image: ogImage,
+  description,
+  sitename,
+};
+
+// ----------------------------
+// maintenance
+// ----------------------------
+const showLayoutComponents = !maintenance;
+
+const metaTags = [
+  { name: 'description', content: description },
+  { name: 'keywords', content: keywords },
+  { property: 'og:title', content: og.title },
+  { property: 'og:description', content: og.description },
+  { property: 'og:image', content: og.image },
+  { property: 'og:url', content: og.url },
+  { property: 'og:type', content: 'website' },
+  { property: 'og:site_name', content: og.sitename },
+];
+---
+
+<html lang={lang}>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+
+    <title>{title}</title>
+
+    <!-- meta タグをまとめて生成 -->
+    {
+      metaTags.map((tag) =>
+        tag.name ? (
+          <meta name={tag.name} content={tag.content} />
+        ) : (
+          <meta property={tag.property} content={tag.content} />
+        )
+      )
+    }
+
+    <!-- ページ固有のCSS/JSを挿入 -->
+    <slot name='styles' />
+    <slot name='head_js' />
+  </head>
+
+  <body>
+    {showLayoutComponents && <Header />}
+    <main>
+      <div class='wrapper'>
+        <slot />
+      </div>
+    </main>
+
+    {showLayoutComponents && <Footer />}
+
+    <script type='module' src='/src/assets/ts/main.js'></script>
+    <slot name='foot_js' />
+  </body>
+</html>
