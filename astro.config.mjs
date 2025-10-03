@@ -5,7 +5,7 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        '~': path.resolve('./src'), // TSのpathsと一致させる
+        '~': path.resolve('./src'),
       },
     },
   },
